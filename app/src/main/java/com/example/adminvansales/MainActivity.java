@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 //        getData();
         fillData();
         String s="";
-        timer = new Timer();
+       /* timer = new Timer();
 
 
         timer.schedule(new TimerTask() {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
 
-        }, 0, 3000);
+        }, 0, 3000);*/
 
 
 
