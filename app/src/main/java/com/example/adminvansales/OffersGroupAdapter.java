@@ -95,19 +95,40 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
         holder .update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-          dialog1 = new Dialog(context);
+                dialog1 = new Dialog(context);
                 dialog1.setCancelable(true);
                 dialog1.setContentView(R.layout.itemof_offersrecycle);
-                dialog1.setCancelable(false);
+                dialog1.setCancelable(true);
                 WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
                 lp.copyFrom(dialog1.getWindow().getAttributes());
                 Button save= dialog1.findViewById(R.id.savechangs);
                 save.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       fillAdapter(context);
+                        fillAdapter(context);
                         dialog1.dismiss();
 
+                    }
+                });
+                EditText  tot=dialog1.findViewById(R.id.tot);
+                tot.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        if(s.length()!=0){
+
+                            updatetotal(list.get(position).getGroupid(), tot.getText().toString().trim() );
+
+                        }
                     }
                 });
                 Button cancel= dialog1.findViewById(R.id.cancelchangs);
@@ -143,9 +164,9 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
             holder.activestate.setBackgroundColor(Color.GREEN);
 
         }
-       // holder.activestate
+        // holder.activestate
 
-    //child row
+        //child row
 
 
 
@@ -155,31 +176,31 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
                 //adapter of child
 
 
-            //    fillAdapter(context);
+                //    fillAdapter(context);
 
                 if(offers.size()==0)
                 {   offers.clear();
 
-                for (int i = 0; i < offerGroupModels.size(); i++) {
-                    if (offerGroupModels.get(i).getGroupid().equals(list.get(position).getGroupid()))
-                        offers.add(offerGroupModels.get(i));
+                    for (int i = 0; i < offerGroupModels.size(); i++) {
+                        if (offerGroupModels.get(i).getGroupid().equals(list.get(position).getGroupid()))
+                            offers.add(offerGroupModels.get(i));
 
+                    }
+
+                    OffersDetailAdapter offersDetailAdapter=new OffersDetailAdapter( offers,context);
+                    LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
+
+                    holder.memeber.setLayoutManager(linearLayoutManager);
+                    holder.memeber.setAdapter(offersDetailAdapter);
                 }
-
-                OffersDetailAdapter offersDetailAdapter=new OffersDetailAdapter( offers,context);
-                LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
-
-                holder.memeber.setLayoutManager(linearLayoutManager);
-                holder.memeber.setAdapter(offersDetailAdapter);
-            }
-            else{
-                Log.e("here==","here");
+                else{
+                    Log.e("here==","here");
                     offers.clear();
                     OffersDetailAdapter offersDetailAdapter=new OffersDetailAdapter( offers,context);
                     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
                     holder.memeber.setLayoutManager(linearLayoutManager);
                     holder.memeber.setAdapter(offersDetailAdapter);
-            }
+                }
             }  });
 
 
@@ -192,7 +213,7 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
 
                 Log.e("fromdate===",list.get(position).getFromDate());
-               // OffersGroupViewHolder(holder,position);
+                // OffersGroupViewHolder(holder,position);
             }
         });
         holder.    todate.setOnClickListener(new View.OnClickListener() {
@@ -214,7 +235,7 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
 
                     list.get(position).setActiveOffers("1");
 
-               updateactive(list.get(position).getGroupid(),"1");
+                    updateactive(list.get(position).getGroupid(),"1");
 
                 }
                 else
@@ -227,36 +248,37 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
         });
 
 
-        holder. totalDec.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (editable.toString().length() != 0) {
-                    try {
-
-
-
-                        String newtotal = editable.toString();
-
-                        list.get(position).setDiscount(newtotal);
-
-                        updatetotal(list.get(position).getGroupid(), list.get(position).getDiscount());
-
-                    }
-                    catch (Exception e){}
-
-
-                }
-            }});
+//        holder. totalDec.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                if (editable.toString().length() != 0) {
+//                    try {
+//
+//
+//                      //  ((InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE)).showSoftInput(editText, 0);
+//
+//                        String newtotal = editable.toString();
+//
+//                        list.get(position).setDiscount(newtotal);
+//
+//                        updatetotal(list.get(position).getGroupid(), list.get(position).getDiscount());
+//
+//                    }
+//                    catch (Exception e){}
+//
+//
+//                }
+//            }});
 
 
     }
@@ -270,7 +292,7 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
         TextView groupnum,fromdate,todate,dropdown,   update;
         ToggleButton activestate;
         EditText totalDec;
-       RecyclerView memeber;
+        RecyclerView memeber;
         public OffersGroupViewHolder(@NonNull View itemView) {
             super(itemView);
             dropdown = itemView.findViewById(R.id.  dropdown );
@@ -300,7 +322,7 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
 
 
         }
-        }
+    }
     public DatePickerDialog.OnDateSetListener openDatePickerDialog(final int flag, final int pos,OffersGroupAdapter.OffersGroupViewHolder holder) {
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -339,22 +361,22 @@ public  class OffersGroupAdapter extends RecyclerView.Adapter<OffersGroupAdapter
 
             updatetodate(list.get(pos).getGroupid(),list.get(pos).getToDate());
 
-         //   updateoffersGroupAdapter();
+            //   updateoffersGroupAdapter();
         }
         yourMethodName(holder,pos);
 
     }
     private void updatefromdate(String id,String fromdate){
-Log.e("updatefromdate==","updatefromdate");
+        Log.e("updatefromdate==","updatefromdate");
         Log.e("id==",id);
         Log.e("fromdate==",fromdate);
         for(int i=0;i<offerGroupModels.size();i++){
 
 
-if(offerGroupModels.get(i).getGroupid().equals(id))
-{  offerGroupModels.get(i).setFromDate(fromdate);
+            if(offerGroupModels.get(i).getGroupid().equals(id))
+            {  offerGroupModels.get(i).setFromDate(fromdate);
 
-}
+            }
 
 
         }

@@ -47,14 +47,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/from_date"
-                android:textColor="@color/colorblue_dark3" />
+                android:textColor="@color/darkGray" />
 
             <TextView
                 android:id="@+id/fromDate_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background=""
+
                 android:gravity="center"
                 android:text="@{fromDate}"
                 android:textColor="@color/darkGray" />

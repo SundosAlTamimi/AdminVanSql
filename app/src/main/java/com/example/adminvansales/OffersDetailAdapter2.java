@@ -48,6 +48,50 @@ public class OffersDetailAdapter2 extends RecyclerView.Adapter<OffersDetailAdapt
         holder. itemno.setTag(list.get(position).getItemNo());
         holder.itemname.setTag(list.get(position).getGroupid());
 
+        holder. qty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() != 0) {
+                    try {
+
+                        int pos =position;
+
+                        newqty=editable.toString();
+                        if(!newqty.trim().equals("0"))
+                        {
+
+                            list.get(pos).setQtyItem(newqty);
+                            //   Log.e("case1===",s+" pos=== "+pos+"itemcode"+list.get(pos).getItemcode());
+                        }
+
+
+
+
+                        else
+                        {
+                            list.get(pos).setQtyItem(offerGroupModels.get(pos).getQtyItem());
+                            notifyDataSetChanged();
+
+                            new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("")
+                                    .setContentText("not valid quantity")
+                                    .show();
+                        }
+                    }catch (Exception e){}
+
+
+                }
+            }});
     }
     public void removeItem(int position,String itemgroub,String itemno) {
 
@@ -86,50 +130,6 @@ public class OffersDetailAdapter2 extends RecyclerView.Adapter<OffersDetailAdapt
             remove = itemView.findViewById(R.id.remove);
 
 
-            qty.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    if (editable.toString().length() != 0) {
-                        try {
-
-                            int pos =getAdapterPosition();
-
-                            newqty=editable.toString();
-                            if(!newqty.trim().equals("0"))
-                            {
-
-                                list.get(pos).setQtyItem(newqty);
-                                //   Log.e("case1===",s+" pos=== "+pos+"itemcode"+list.get(pos).getItemcode());
-                            }
-
-
-
-
-                            else
-                            {
-                                list.get(pos).setQtyItem(offerGroupModels.get(pos).getQtyItem());
-                                notifyDataSetChanged();
-
-                                new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-                                        .setTitleText("")
-                                        .setContentText("not valid quantity")
-                                        .show();
-                            }
-                        }catch (Exception e){}
-
-
-                    }
-                }});
 
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,14 +146,14 @@ public class OffersDetailAdapter2 extends RecyclerView.Adapter<OffersDetailAdapt
                             // notifyItemRemoved(position);
 
                             int position=getAdapterPosition();
-                           // Log.e("rItemno--",itemno.getTag()+"");
-//                            Log.e("Itemname--",itemname.getTag()+"");
-//                            Log.e("removeItemposition",position+"");
+                            Log.e("rItemno--",itemno.getTag()+"");
+                            Log.e("Itemname--",itemname.getTag()+"");
+                            Log.e("removeItemposition",position+"");
                             removeItem(position,String.valueOf(itemname.getTag()),String.valueOf(itemno.getTag()));
-                           list.remove(position);
+                            list.remove(position);
                             notifyDataSetChanged();
                             dialog.dismiss();
-                            fillAdapter(context);
+                            //   fillAdapter(context);
                             // updateAdapter(context);
                             Log.e("removeItemposition",position+"");
 
